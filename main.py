@@ -1,54 +1,21 @@
-import tkinter as tk
-from tkinter import messagebox
+import streamlit as st
 import math
 
-# دالة حساب الجذر التربيعي
-def calculate_square_root():
-    try:
-        # الحصول على القيمة المدخلة وتحويلها إلى رقم
-        entry_value = entry.get()
-        
-        # التأكد من أن المدخل عدد صحيح وطبيعي
-        if not entry_value.isdigit():
-            raise ValueError("الرجاء إدخال عدد طبيعي صحيح فقط (أكبر من أو يساوي 0).")
-        
-        number = int(entry_value)
-        
-        # حساب الجذر التربيعي
-        result = math.sqrt(number)
-        
-        # عرض النتيجة (إذا كانت النتيجة فاصلة صفرية، نعرضها كعدد صحيح)
-        if result.is_integer():
-            label_result.config(text=f"الجذر التربيعي هو: {int(result)}", fg="green")
-        else:
-            label_result.config(text=f"الجذر التربيعي هو: {result:.4f}", fg="green")
-            
-    except ValueError as e:
-        # عرض رسالة خطأ في حال إدخال نص أو عدد سالب
-        messagebox.showerror("خطأ في الإدخال", str(e))
+# إعدادات الصفحة لتناسب شاشات الهواتف والكمبيوتر
+st.set_page_config(page_title="حساب الجذر التربيعي", page_icon="🧮", layout="centered")
 
-# إنشاء نافذة التطبيق الرئيسية
-window = tk.Tk()
-window.title("برنامج حساب الجذر الطبيعي")
-window.geometry("350x250")
-window.configure(bg="#f0f0f0")
+# عنوان التطبيق
+st.title("🚀 تطبيق حساب الجذر التربيعي")
+st.write("أدخل أي عدد طبيعي لمعرفة جذره التربيعي فوراً!")
 
-# عنوان التطبيق داخل النافذة
-label_title = tk.Label(window, text="حساب الجذر التربيعي لعدد طبيعي", font=("Arial", 14, "bold"), bg="#f0f0f0")
-label_title.pack(pady=15)
-
-# صندوق إدخال الرقم
-entry = tk.Entry(window, font=("Arial", 12), justify="center", width=20)
-entry.pack(pady=10)
-entry.insert(0, "أدخل العدد هنا") # نص توضيحي
+# صندوق إدخال النص (متوافق مع شاشات اللمس)
+number = st.number_input("أدخل العدد هنا:", min_value=0, step=1, value=0)
 
 # زر الحساب
-btn_calculate = tk.Button(window, text="احسب الجذر", font=("Arial", 12), bg="#4CAF50", fg="white", command=calculate_square_root)
-btn_calculate.pack(pady=10)
-
-# مكان عرض النتيجة
-label_result = tk.Label(window, text="", font=("Arial", 12, "bold"), bg="#f0f0f0")
-label_result.pack(pady=15)
-
-# تشغيل النافذة
-window.mainloop()
+if st.button("احسب الآن ✨"):
+    if number >= 0:
+        result = math.sqrt(number)
+        # عرض النتيجة بشكل جذاب
+        st.success(f"💡 الجذر التربيعي للعدد **{number}** هو:  **{result:.4f}**")
+    else:
+        st.error("الرجاء إدخال عدد طبيعي أكبر من أو يساوي الصفر.")
